@@ -1,6 +1,6 @@
-import { PUBLIC_API_BASE_URL } from '$env/dynamic/public';
+import { env } from '$env/dynamic/public';
 
-const API_BASE_URL = PUBLIC_API_BASE_URL || 'http://127.0.0.1:3000';
+const API_BASE_URL = env.PUBLIC_API_BASE_URL || 'http://127.0.0.1:3000';
 
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {

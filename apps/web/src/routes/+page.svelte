@@ -1,4 +1,6 @@
 <script lang="ts">
+	import AccountControl from '$lib/components/AccountControl.svelte';
+
 	const features = [
 		['01', 'Discover how you work', 'A fast visual assessment turns your responses into a multidimensional work-style profile.'],
 		['02', 'Explore careers that fit', 'See career options with transparent reasons instead of a mysterious personality label.'],
@@ -14,7 +16,11 @@
 <div class="shell">
 	<header class="nav">
 		<a class="brand" href="/" aria-label="Career Finder home">Career<span>Finder</span></a>
-		<a class="nav-link" href="/assessment">Take assessment <span aria-hidden="true">→</span></a>
+		<nav aria-label="Main navigation">
+			<a class="nav-link" href="/careers">Explore careers</a>
+			<a class="nav-link" href="/assessment">Take assessment <span aria-hidden="true">→</span></a>
+			<AccountControl />
+		</nav>
 	</header>
 
 	<main>
@@ -54,6 +60,7 @@
 	.nav { max-width: 1180px; margin: 0 auto; padding: 1.25rem 1.1rem; display: flex; justify-content: space-between; align-items: center; }
 	.brand { font-weight: 800; letter-spacing: -.05em; font-size: 1.15rem; }
 	.brand span { opacity: .5; }
+	.nav nav { display: flex; align-items: center; gap: 1.25rem; }
 	.nav-link { font-size: .9rem; color: #c9d1dc; }
 	.hero { max-width: 900px; margin: 0 auto; padding: 6rem 1.1rem 5rem; text-align: center; }
 	.eyebrow { font-size: .72rem; letter-spacing: .18em; color: #8c98a8; font-weight: 700; }
@@ -79,4 +86,5 @@
 		.feature { min-height: 170px; }
 		.feature h2 { margin-top: 2.5rem; }
 	}
+	@media (max-width: 420px) { .nav nav { gap: .7rem; } .nav-link { font-size: .8rem; } }
 </style>

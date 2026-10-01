@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { apiFetch } from '$lib/services/api/client';
+	import AccountControl from '$lib/components/AccountControl.svelte';
 	import type { Assessment, AssessmentOption, AssessmentResult } from '$lib/types/assessment';
 
 	let assessment = $state<Assessment | null>(null);
@@ -86,7 +87,7 @@
 <div class="assessment-shell">
 	<header class="nav">
 		<a class="brand" href="/">Career<span>Finder</span></a>
-		<a href="/">Exit</a>
+		<nav aria-label="Main navigation"><a href="/careers">Explore careers</a><AccountControl /><a href="/">Exit</a></nav>
 	</header>
 
 	{#if loading}
@@ -115,13 +116,13 @@
 				{#each result.matches.slice(0, 5) as match, index}
 					<div class="match">
 						<div class="rank">0{index + 1}</div>
-						<div class="match-copy"><h2>{match.career.name}</h2><p>{match.career.category} · {label(match.matchStrength)} · {match.overallScore}/100</p></div>
+						<div class="match-copy"><h2><a href={`/careers/${match.career.slug}`}>{match.career.name}</a></h2><p>{match.career.category} · {label(match.matchStrength)} · {match.overallScore}/100</p></div>
 						<div class="match-score">{match.overallScore}</div>
 					</div>
 				{/each}
 			</section>
 
-			<a class="primary" href="/">Continue exploring <span>→</span></a>
+			<a class="primary" href="/careers">Explore all careers <span>→</span></a>
 		</main>
 	{:else if currentQuestion}
 		<main class="test">
@@ -157,6 +158,7 @@
 	:global(*) { box-sizing: border-box; }
 	.assessment-shell { min-height: 100vh; background: radial-gradient(circle at 85% 10%, rgba(93,84,255,.14), transparent 28rem); }
 	.nav { max-width: 980px; margin: 0 auto; padding: 1.25rem 1.1rem; display: flex; justify-content: space-between; color: #7f8a9a; font-size: .88rem; }
+	.nav nav { display: flex; align-items: center; gap: 1rem; }
 	.brand { color: #f4f7fb; font-weight: 800; letter-spacing: -.05em; font-size: 1.15rem; }
 	.brand span { opacity: .5; }
 	.test, .results { max-width: 980px; margin: 0 auto; padding: 3rem 1.1rem 5rem; }
@@ -196,6 +198,7 @@
 	.match { display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid #202732; }
 	.rank { color: #687384; font-size: .8rem; }
 	.match h2 { margin: 0; font-size: 1.1rem; text-transform: capitalize; }
+	.match h2 a:hover { text-decoration: underline; }
 	.match p { margin: .25rem 0 0; color: #7f8a9a; font-size: .82rem; }
 	.match-score { font-weight: 850; }
 	@media (max-width: 700px) {
@@ -204,4 +207,5 @@
 		.choices, .profile-grid { grid-template-columns: 1fr; }
 		.choice img { aspect-ratio: 1.7; }
 	}
+	@media (max-width: 420px) { .nav nav { gap: .65rem; } }
 </style>

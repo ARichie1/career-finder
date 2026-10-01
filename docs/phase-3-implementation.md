@@ -1,8 +1,8 @@
 # Phase 3 — Implementation Log
 
-## Current milestone: Foundation + first deterministic vertical slice
+## Current milestone: Deterministic discovery + account foundation
 
-Date: 2026-09-04
+Updated: 2026-10-01
 
 ### Completed
 
@@ -16,6 +16,11 @@ Date: 2026-09-04
 - Added API endpoints for retrieving the current assessment fixture and scoring responses.
 - Added a PostgreSQL/Prisma target schema covering assessment, profile, career and match foundations.
 - Added migration-script documentation and explicit legacy-data safety rules.
+- Connected the assessment UI to scoring and added completion/result presentation.
+- Added career listing, detail, search and comparison routes with recoverable loading, error and empty states.
+- Added Better Auth with verified email/password registration, password reset, optional Google OAuth, secure sessions and database-backed rate limits.
+- Added the responsive account route and shared sign-in/sign-out controls throughout the frontend.
+- Extended the Prisma schema and migration with auth accounts, sessions, verification records and rate limits.
 
 ### Important boundary
 
@@ -26,14 +31,13 @@ content once it is available.
 
 ### Next implementation order
 
-1. Connect the assessment UI to the API.
-2. Make the assessment interaction resilient on mobile.
-3. Add completion/result presentation.
-4. Replace draft assessment content with the audited legacy 30-round content.
-5. Add persistence through Prisma/PostgreSQL.
-6. Add career detail/search endpoints.
-7. Add account creation and saved careers.
-8. Add integration/e2e coverage for the complete MVP journey.
+1. Replace draft assessment content with audited legacy 30-round content when available.
+2. Persist assessment attempts, profiles and matches through Prisma/PostgreSQL.
+3. Load career records into PostgreSQL and use the durable data source for career detail/search.
+4. Add authenticated saved-career API endpoints and frontend save/list/remove flows.
+5. Add integration/e2e coverage for registration, assessment, matching, exploration and saved careers.
+
+Email delivery, Google OAuth and PostgreSQL require environment configuration; see `docs/authentication-setup.md`.
 
 Post-MVP features such as comparison, skill gaps, roadmaps, billing and AI remain
 out of the MVP critical path until the core discovery loop is working end-to-end.

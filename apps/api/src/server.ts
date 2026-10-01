@@ -3,7 +3,14 @@ import { env } from './config/env.js';
 import { registerCors } from './plugins/cors.js';
 import { registerRoutes } from './routes/index.js';
 
-const app = Fastify({ logger: true });
+const app = Fastify({
+  logger: {
+    redact: {
+      paths: ['req.headers.authorization', 'req.headers.cookie', 'req.url'],
+      censor: '[REDACTED]'
+    }
+  }
+});
 
 app.get('/', async () => ({
   name: 'Career Finder API',

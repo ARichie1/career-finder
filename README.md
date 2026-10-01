@@ -46,10 +46,14 @@ The API currently exposes:
 - `POST /api/v1/assessment/score`
 - `GET /api/v1/careers`
 - `GET /api/v1/careers/:slug`
+- `GET /api/v1/auth/config`
+- `/api/auth/*` — email/password, verification, password reset, Google OAuth, and sessions
 
 ## Development
 
 This repository uses pnpm workspaces.
+
+Authentication configuration, OAuth callback setup, SMTP requirements, and Prisma migration commands are documented in [docs/authentication-setup.md](docs/authentication-setup.md).
 
 ```bash
 pnpm install
