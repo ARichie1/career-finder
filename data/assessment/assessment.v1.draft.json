@@ -1,0 +1,57 @@
+{
+  "id": "work-style",
+  "name": "Career Finder Work-Style Assessment",
+  "description": "A development fixture for the multidimensional assessment engine. Production 30-round legacy content must be migrated and reviewed before activation.",
+  "version": "2026.1-draft",
+  "status": "draft",
+  "questions": [
+    {
+      "id": "q01",
+      "order": 1,
+      "prompt": "Which situation feels most appealing?",
+      "selectionMode": "single",
+      "options": [
+        {"id":"q01-a","label":"Help a team solve a difficult problem","description":"Work alongside people and keep the group moving.","image":"/assessment/q01-a.svg","signals":[{"dimension":"harmony","value":0.8,"source":"question-option"},{"dimension":"social","value":0.7,"source":"question-option"}]},
+        {"id":"q01-b","label":"Experiment with several possible solutions","description":"Try different approaches and see what works.","image":"/assessment/q01-b.svg","signals":[{"dimension":"exploration","value":0.8,"source":"question-option"},{"dimension":"investigative","value":0.7,"source":"question-option"}]},
+        {"id":"q01-c","label":"Take ownership and make the call","description":"Move from discussion to a clear decision.","image":"/assessment/q01-c.svg","signals":[{"dimension":"drive","value":0.8,"source":"question-option"},{"dimension":"enterprising","value":0.7,"source":"question-option"}]},
+        {"id":"q01-d","label":"Organize the work into a clear process","description":"Create a dependable sequence and keep details aligned.","image":"/assessment/q01-d.svg","signals":[{"dimension":"structure","value":0.8,"source":"question-option"},{"dimension":"conventional","value":0.7,"source":"question-option"}]}
+      ]
+    },
+    {
+      "id": "q02",
+      "order": 2,
+      "prompt": "A project changes unexpectedly. What do you naturally do?",
+      "selectionMode": "single",
+      "options": [
+        {"id":"q02-a","label":"Check how the change affects everyone","description":"Make sure people understand the impact before moving on.","image":"/assessment/q02-a.svg","signals":[{"dimension":"harmony","value":0.7,"source":"question-option"},{"dimension":"social","value":0.6,"source":"question-option"}]},
+        {"id":"q02-b","label":"Explore the new possibilities","description":"Treat the change as a chance to discover a better approach.","image":"/assessment/q02-b.svg","signals":[{"dimension":"exploration","value":0.9,"source":"question-option"},{"dimension":"artistic","value":0.4,"source":"question-option"}]},
+        {"id":"q02-c","label":"Decide what needs to happen next","description":"Focus on action and keep the project moving.","image":"/assessment/q02-c.svg","signals":[{"dimension":"drive","value":0.8,"source":"question-option"},{"dimension":"enterprising","value":0.5,"source":"question-option"}]},
+        {"id":"q02-d","label":"Rework the plan","description":"Update the sequence, priorities and constraints.","image":"/assessment/q02-d.svg","signals":[{"dimension":"structure","value":0.9,"source":"question-option"},{"dimension":"conventional","value":0.5,"source":"question-option"}]}
+      ]
+    },
+    {
+      "id": "q03",
+      "order": 3,
+      "prompt": "Which type of work would you rather spend time doing?",
+      "selectionMode": "multiple",
+      "options": [
+        {"id":"q03-a","label":"Investigating how something works","description":"Dig into evidence, patterns or systems.","image":"/assessment/q03-a.svg","signals":[{"dimension":"exploration","value":0.5,"source":"question-option"},{"dimension":"investigative","value":0.9,"source":"question-option"}]},
+        {"id":"q03-b","label":"Building or fixing something tangible","description":"Work directly with tools, systems or physical materials.","image":"/assessment/q03-b.svg","signals":[{"dimension":"drive","value":0.4,"source":"question-option"},{"dimension":"realistic","value":0.9,"source":"question-option"}]},
+        {"id":"q03-c","label":"Designing or creating a new experience","description":"Turn ideas into something people can use or enjoy.","image":"/assessment/q03-c.svg","signals":[{"dimension":"exploration","value":0.7,"source":"question-option"},{"dimension":"artistic","value":0.9,"source":"question-option"}]},
+        {"id":"q03-d","label":"Explaining or teaching an idea","description":"Help another person understand and apply it.","image":"/assessment/q03-d.svg","signals":[{"dimension":"harmony","value":0.6,"source":"question-option"},{"dimension":"social","value":0.9,"source":"question-option"}]}
+      ]
+    },
+    {
+      "id": "q04",
+      "order": 4,
+      "prompt": "When you have several good options, what helps you choose?",
+      "selectionMode": "single",
+      "options": [
+        {"id":"q04-a","label":"Which option helps the people involved most?","description":"Consider relationships and shared outcomes.","image":"/assessment/q04-a.svg","signals":[{"dimension":"harmony","value":0.8,"source":"question-option"},{"dimension":"social","value":0.7,"source":"question-option"}]},
+        {"id":"q04-b","label":"Which option opens the most possibilities?","description":"Choose the route with room to experiment.","image":"/assessment/q04-b.svg","signals":[{"dimension":"exploration","value":0.8,"source":"question-option"},{"dimension":"artistic","value":0.5,"source":"question-option"}]},
+        {"id":"q04-c","label":"Which option gets the strongest result fastest?","description":"Prioritize impact, ownership and momentum.","image":"/assessment/q04-c.svg","signals":[{"dimension":"drive","value":0.8,"source":"question-option"},{"dimension":"enterprising","value":0.7,"source":"question-option"}]},
+        {"id":"q04-d","label":"Which option has the clearest evidence and process?","description":"Prefer a decision that can be justified systematically.","image":"/assessment/q04-d.svg","signals":[{"dimension":"structure","value":0.8,"source":"question-option"},{"dimension":"investigative","value":0.5,"source":"question-option"}]}
+      ]
+    }
+  ]
+}

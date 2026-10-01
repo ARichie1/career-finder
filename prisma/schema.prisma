@@ -1,0 +1,269 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  displayName String?
+  country     String?
+  journeyType String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  attempts    AssessmentAttempt[]
+  profiles    CareerProfile[]
+  savedCareers SavedCareer[]
+}
+
+model Assessment {
+  id          String             @id
+  name        String
+  description String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  versions    AssessmentVersion[]
+  attempts    AssessmentAttempt[]
+}
+
+model AssessmentVersion {
+  id           String       @id
+  assessmentId String
+  version      String
+  status       AssessmentStatus @default(DRAFT)
+  createdAt    DateTime     @default(now())
+  assessment   Assessment   @relation(fields: [assessmentId], references: [id])
+  questions    Question[]
+  attempts     AssessmentAttempt[]
+
+  @@unique([assessmentId, version])
+  @@index([assessmentId, status])
+}
+
+model Question {
+  id                  String            @id
+  assessmentVersionId String
+  order               Int
+  prompt              String
+  selectionMode       SelectionMode
+  version             AssessmentVersion @relation(fields: [assessmentVersionId], references: [id])
+  options             QuestionOption[]
+  responses           Response[]
+
+  @@unique([assessmentVersionId, order])
+  @@index([assessmentVersionId])
+}
+
+model QuestionOption {
+  id         String   @id
+  questionId String
+  label      String
+  description String?
+  image      String
+  question   Question @relation(fields: [questionId], references: [id])
+  signals    Signal[]
+
+  @@index([questionId])
+}
+
+model Signal {
+  id             String         @id
+  questionOptionId String
+  dimension      String
+  value          Float
+  source         String         @default("question-option")
+  option         QuestionOption @relation(fields: [questionOptionId], references: [id])
+
+  @@index([questionOptionId, dimension])
+}
+
+model AssessmentAttempt {
+  id                  String            @id @default(cuid())
+  userId              String?
+  assessmentId        String
+  assessmentVersionId String
+  status              AttemptStatus      @default(IN_PROGRESS)
+  startedAt           DateTime          @default(now())
+  completedAt         DateTime?
+  user                User?             @relation(fields: [userId], references: [id])
+  assessment          Assessment        @relation(fields: [assessmentId], references: [id])
+  version             AssessmentVersion @relation(fields: [assessmentVersionId], references: [id])
+  responses           Response[]
+  profiles            CareerProfile[]
+
+  @@index([userId, startedAt])
+  @@index([assessmentId, status])
+}
+
+model Response {
+  id                String           @id @default(cuid())
+  attemptId         String
+  questionId        String
+  selectedOptions   Json
+  answeredAt        DateTime         @default(now())
+  attempt           AssessmentAttempt @relation(fields: [attemptId], references: [id])
+  question          Question         @relation(fields: [questionId], references: [id])
+
+  @@unique([attemptId, questionId])
+  @@index([questionId])
+}
+
+model CareerProfile {
+  id                String             @id @default(cuid())
+  userId            String?
+  assessmentAttemptId String?
+  harmony           Float
+  exploration       Float
+  drive             Float
+  structure         Float
+  realistic         Float
+  investigative     Float
+  artistic          Float
+  social            Float
+  enterprising      Float
+  conventional      Float
+  workStyleConfidence Float
+  interestConfidence  Float
+  calculationVersion String
+  createdAt         DateTime           @default(now())
+  user              User?              @relation(fields: [userId], references: [id])
+  assessmentAttempt AssessmentAttempt? @relation(fields: [assessmentAttemptId], references: [id])
+  matches            CareerMatch[]
+
+  @@index([userId, createdAt])
+  @@index([assessmentAttemptId])
+}
+
+model Career {
+  id                String            @id
+  slug              String            @unique
+  name              String
+  category          String
+  overview          String
+  education         String
+  activities        Json
+  source            String
+  sourceVersion     String
+  isPublished       Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  interests         CareerInterest[]
+  workStyles        CareerWorkStyle[]
+  skills            CareerSkill[]
+  requirements      CareerRequirement[]
+  matches            CareerMatch[]
+  savedBy           SavedCareer[]
+
+  @@index([category, isPublished])
+}
+
+model CareerInterest {
+  id         String   @id @default(cuid())
+  careerId   String
+  dimension  String
+  score      Float
+  career     Career   @relation(fields: [careerId], references: [id])
+
+  @@unique([careerId, dimension])
+}
+
+model CareerWorkStyle {
+  id         String   @id @default(cuid())
+  careerId   String
+  dimension  String
+  score      Float
+  career     Career   @relation(fields: [careerId], references: [id])
+
+  @@unique([careerId, dimension])
+}
+
+model Skill {
+  id         String       @id
+  name       String       @unique
+  category   String
+  careerSkills CareerSkill[]
+}
+
+model CareerSkill {
+  id         String   @id @default(cuid())
+  careerId   String
+  skillId    String
+  importance Float    @default(1)
+  career     Career   @relation(fields: [careerId], references: [id])
+  skill      Skill    @relation(fields: [skillId], references: [id])
+
+  @@unique([careerId, skillId])
+  @@index([skillId])
+}
+
+model CareerRequirement {
+  id         String @id @default(cuid())
+  careerId   String
+  type       String
+  value      String
+  career     Career @relation(fields: [careerId], references: [id])
+
+  @@index([careerId, type])
+}
+
+model CareerMatch {
+  id                  String        @id @default(cuid())
+  profileId           String
+  careerId            String
+  interestFit         Float
+  workStyleFit        Float
+  preferenceFit       Float?
+  goalFit             Float?
+  constraintFit       Float?
+  overallScore        Float
+  matchStrength       MatchStrength
+  matchingVersion     String
+  evidence            Json
+  createdAt           DateTime      @default(now())
+  profile             CareerProfile @relation(fields: [profileId], references: [id])
+  career              Career         @relation(fields: [careerId], references: [id])
+
+  @@unique([profileId, careerId, matchingVersion])
+  @@index([profileId, overallScore])
+}
+
+model SavedCareer {
+  id        String   @id @default(cuid())
+  userId    String
+  careerId  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  career    Career   @relation(fields: [careerId], references: [id])
+
+  @@unique([userId, careerId])
+  @@index([careerId])
+}
+
+enum AssessmentStatus {
+  DRAFT
+  ACTIVE
+  RETIRED
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum SelectionMode {
+  SINGLE
+  MULTIPLE
+}
+
+enum MatchStrength {
+  STRONG
+  GOOD
+  EXPLORE
+  LOWER
+}

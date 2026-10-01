@@ -1,0 +1,31 @@
+{
+  "name": "@career-finder/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./assessment": {
+      "types": "./src/assessment/index.ts",
+      "import": "./dist/assessment/index.js",
+      "default": "./dist/assessment/index.js"
+    },
+    "./matching": {
+      "types": "./src/matching/index.ts",
+      "import": "./dist/matching/index.js",
+      "default": "./dist/matching/index.js"
+    }
+  },
+  "dependencies": {
+    "@career-finder/types": "workspace:*"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test"
+  }
+}
